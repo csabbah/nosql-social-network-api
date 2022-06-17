@@ -21,6 +21,6 @@ const UserSchema = new Schema({
 });
 
 // Create the User model using the UserSchema then export it
-const User = model('Pizza', UserSchema);
+const User = model('User', UserSchema);
 
 module.exports = User;
