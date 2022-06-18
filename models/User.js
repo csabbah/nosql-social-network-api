@@ -13,11 +13,20 @@ const UserSchema = new Schema({
     unique: true,
     trim: true,
   },
-  // Need to add thoughts (id values that reference the thought model)
-  // Need to add friends (id values that references the User model (self-reference))
+  friends: [],
+  thoughts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Thought',
+    },
+  ],
+});
 
-  // Add Schema settings
-  // - friendCount (retrieve length of user's friends array field on query)
+UserSchema.virtual('friendCount').get(function () {
+  return this.friends.reduce(
+    (total, friends) => total + friends.replies.length + 1,
+    0
+  );
 });
 
 // Create the User model using the UserSchema then export it
