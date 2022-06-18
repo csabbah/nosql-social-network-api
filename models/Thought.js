@@ -21,23 +21,34 @@ const ReactionSchema = new Schema({
   },
 });
 
-const ThoughtSchema = new Schema({
-  thoughtText: {
-    type: String,
-    required: true,
-    min: 1,
-    max: 280,
+const ThoughtSchema = new Schema(
+  {
+    thoughtText: {
+      type: String,
+      required: true,
+      min: 1,
+      max: 280,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      // Need to add a getter method to format timestamp on query
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    reactions: [ReactionSchema],
   },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-    // Need to add a getter method to format timestamp on query
-  },
-  // Need to add username (the user that created the thought)
-  // Need to add reactions (similar to replies)
+  {
+    toJSON: {
+      virtuals: true,
+    },
+  }
+);
 
-  // Add Schema settings
-  // - reactionCount (retrieve length of thought's reactions array field on query)
+CommentSchema.virtual('reactionCount').get(function () {
+  return this.reactions.length;
 });
 
 // Create the Thought model using the ThoughtSchema then export it
