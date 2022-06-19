@@ -11,7 +11,7 @@ const thoughtController = {
       })
       // This select statement is attached to the parent Thought data
       .select('-__v')
-      // This would sort based on the User ID and return the newest Thoughts first
+      // This would sort based on the Thought ID and return the newest Thoughts first
       .sort({ _id: -1 })
       .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => {
