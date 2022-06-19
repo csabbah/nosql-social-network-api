@@ -41,10 +41,13 @@ const UserSchema = new Schema(
   }
 );
 
-// !!!!READ NOTE The below method returns invalid length, fix this, just refer to the friends.length value
-// UserSchema.virtual('friendCount').get(function () {
-//   return this.friends.reduce((total, friends) => total + friends);
-// });
+UserSchema.virtual('friendCount').get(function () {
+  return this.friends.length;
+});
+
+UserSchema.virtual('thoughtCount').get(function () {
+  return this.thoughts.length;
+});
 
 // Create the User model using the UserSchema then export it
 const User = model('User', UserSchema);
