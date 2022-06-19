@@ -25,7 +25,7 @@ const userController = {
       .catch((err) => res.status(400).json(err));
   },
   updateUser({ params, body }, res) {
-    User.findOneAndUpdate({ _id: params.id }, body, {
+    User.findOneAndUpdate({ _id: params.userId }, body, {
       new: true,
       runValidators: true,
     })
@@ -39,7 +39,7 @@ const userController = {
       .catch((err) => res.status(400).json(err));
   },
   getUserById({ params }, res) {
-    User.findOne({ _id: params.id })
+    User.findOne({ _id: params.userId })
       .populate({
         path: 'thoughts',
         select: '-__v',
@@ -61,7 +61,7 @@ const userController = {
   // ADD A FUNCTION HERE TO DELETE ALL USERS ASSOCIATED THOUGHTS - USE A MONGOOSE FUNCTION
   // Refer to the Remove thought function in thought-controller for reference
   deleteUser({ params }, res) {
-    User.findOneAndDelete({ _id: params.id })
+    User.findOneAndDelete({ _id: params.userId })
       .then((dbUserData) => {
         if (!dbUserData) {
           res.status(404).json({ message: 'No User found with this id!' });
