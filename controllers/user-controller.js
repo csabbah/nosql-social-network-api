@@ -58,6 +58,8 @@ const userController = {
       });
   },
 
+  // ADD A FUNCTION HERE TO DELETE ALL USERS ASSOCIATED THOUGHTS - USE A MONGOOSE FUNCTION
+  // Refer to the Remove thought function in thought-controller for reference
   deleteUser({ params }, res) {
     User.findOneAndDelete({ _id: params.id })
       .then((dbUserData) => {
