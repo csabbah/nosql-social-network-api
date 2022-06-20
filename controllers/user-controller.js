@@ -106,7 +106,7 @@ const userController = {
                   .status(404)
                   .json({ message: 'No Thought with this id!' });
               }
-              return User.findOneAndUpdate(
+              User.findOneAndUpdate(
                 { _id: params.userId },
                 { $pull: { thoughts: params.thoughtID } },
                 { new: true }
