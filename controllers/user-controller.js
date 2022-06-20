@@ -58,16 +58,16 @@ const userController = {
       });
   },
 
-  // !!!!READ NOTE - Add a method to not add duplicate friendId's
   addFriend({ params }, res) {
     User.findOneAndUpdate(
       { _id: params.userId },
-      { $push: { friends: { _id: params.friendId } } },
+      // By adding addToSet, it will only add unique data to the array
+      { $addToSet: { friends: { _id: params.friendId } } },
       { new: true, runValidators: true }
     )
       .then((dbFriendData) => {
         if (!dbFriendData) {
-          res.status(404).json({ message: 'No Friend found with this id!' });
+          res.status(404).json({ message: 'No User found with this id!' });
           return;
         }
         res.json(dbFriendData);
