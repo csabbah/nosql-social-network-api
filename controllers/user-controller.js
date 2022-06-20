@@ -85,8 +85,6 @@ const userController = {
       .catch((err) => res.json(err));
   },
 
-  // !!!!READ NOTE ADD A FUNCTION HERE TO DELETE ALL USERS ASSOCIATED THOUGHTS - USE A MONGOOSE FUNCTION
-  // Refer to the Remove thought function in thought-controller for reference
   deleteUser({ params }, res) {
     User.find({})
       .populate({
@@ -95,9 +93,12 @@ const userController = {
         select: '-__v',
       })
       .then((thoughtData) => {
+        // Iterate through the Users Thoughts
         thoughtData[0].thoughts.forEach((item) => {
+          // Extract the ID Object and stringify it then remove the ""
           var thoughtID = JSON.stringify(item._id).replace(/['"]+/g, '');
 
+          // For each thought, if it matches the users ThoughtId, delete it
           Thought.findOneAndDelete({ _id: thoughtID }).then(
             (deletedThought) => {
               if (!deletedThought) {
