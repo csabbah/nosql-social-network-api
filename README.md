@@ -46,8 +46,8 @@ From there, you are ready to test the routes!
 
 - Node.js
 - Express.js
+- NoSQL - MongoDB
 - Mongoose
-- MongoDB
 - Regex
 - Moment.js
 - JavaScript
