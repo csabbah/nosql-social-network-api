@@ -1,4 +1,4 @@
-const { User } = require('../models');
+const { User, Thought } = require('../models');
 
 const userController = {
   // Get all Users
@@ -88,15 +88,43 @@ const userController = {
   // !!!!READ NOTE ADD A FUNCTION HERE TO DELETE ALL USERS ASSOCIATED THOUGHTS - USE A MONGOOSE FUNCTION
   // Refer to the Remove thought function in thought-controller for reference
   deleteUser({ params }, res) {
-    User.findOneAndDelete({ _id: params.userId })
-      .then((dbUserData) => {
-        if (!dbUserData) {
-          res.status(404).json({ message: 'No User found with this id!' });
-          return;
-        }
-        res.json(dbUserData);
+    User.find({})
+      .populate({
+        path: 'thoughts',
+        // Adding a '-' indicates we don't want to return this data '__v"
+        select: '-__v',
       })
-      .catch((err) => res.status(400).json(err));
+      .then((thoughtData) => {
+        thoughtData[0].thoughts.forEach((item) => {
+          var thoughtID = JSON.stringify(item._id).replace(/['"]+/g, '');
+
+          Thought.findOneAndDelete({ _id: thoughtID }).then(
+            (deletedThought) => {
+              if (!deletedThought) {
+                return res
+                  .status(404)
+                  .json({ message: 'No Thought with this id!' });
+              }
+              return User.findOneAndUpdate(
+                { _id: params.userId },
+                { $pull: { thoughts: params.thoughtID } },
+                { new: true }
+              );
+            }
+          );
+        });
+      })
+      .then(() => {
+        User.findOneAndDelete({ _id: params.userId })
+          .then((dbUserData) => {
+            if (!dbUserData) {
+              res.status(404).json({ message: 'No User found with this id!' });
+              return;
+            }
+            res.json(dbUserData);
+          })
+          .catch((err) => res.status(400).json(err));
+      });
   },
 };
 module.exports = userController;
