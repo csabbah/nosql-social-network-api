@@ -5,7 +5,6 @@
 - [Description](#Description)
 - [Installation](#Installation)
 - [Usage](#Usage)
-- [Links](#Links)
 - [Questions](#Questions)
 
 ##
@@ -37,10 +36,6 @@ npm start
 ```
 
 From there, you are ready to test the routes!
-
-## Links
-
-[Link to video of execution](https://drive.google.com/file/d/1CH0Yd9sU-U8fKuzcTDf82gUbmVdxaxij/view?usp=sharing)
 
 ## Built With
 
